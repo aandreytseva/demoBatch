@@ -24,7 +24,6 @@ import org.springframework.core.task.TaskExecutor;
 @EnableBatchProcessing
 @AllArgsConstructor
 public class SpringBatchConfig {
-
     private JobBuilderFactory jobBuilderFactory;
 
     private StepBuilderFactory stepBuilderFactory;

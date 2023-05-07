@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/batch
+    url: jdbc:postgresql://localhost:5332/batch
     username: springapp
     password: password0
   jpa:
