@@ -30,7 +30,7 @@ public class SpringBatchConfig {
 
     private CustomerRepository repository;
 
-
+    // Creates a FlatFileItemReader bean for reading a CSV file
     @Bean
     public FlatFileItemReader<Customer> reader() {
         FlatFileItemReader<Customer> itemReader = new FlatFileItemReader<>();
@@ -41,6 +41,7 @@ public class SpringBatchConfig {
         return itemReader;
     }
 
+    // Creates a LineMapper object for mapping CSV file lines to Customer objects
     private LineMapper<Customer> lineMapper() {
         DefaultLineMapper<Customer> lineMapper = new DefaultLineMapper<>();
 
@@ -49,6 +50,7 @@ public class SpringBatchConfig {
         lineTokenizer.setStrict(false);
         lineTokenizer.setNames("id", "firstName", "lastName", "email", "gender", "contactNo", "country", "dob");
 
+        // for mapping CSV fields to Customer object properties
         BeanWrapperFieldSetMapper<Customer> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(Customer.class);
 
@@ -58,11 +60,13 @@ public class SpringBatchConfig {
 
     }
 
+    //for processing Customer objects
     @Bean
     public CustomerProcessor processor() {
         return new CustomerProcessor();
     }
 
+    // bean for writing Customer objects to the repository
     @Bean
     public RepositoryItemWriter<Customer> writer() {
         RepositoryItemWriter<Customer> writer = new RepositoryItemWriter<>();
@@ -71,6 +75,7 @@ public class SpringBatchConfig {
         return writer;
     }
 
+    // Step object for executing the batch job
     @Bean
     public Step step1() {
         return stepBuilderFactory.get("csv-step").<Customer, Customer>chunk(10)
@@ -81,6 +86,7 @@ public class SpringBatchConfig {
                 .build();
     }
 
+    // runs batch job
     @Bean
     public Job runJob() {
         return jobBuilderFactory.get("importCustomers")
@@ -88,6 +94,7 @@ public class SpringBatchConfig {
 
     }
 
+    // bean for executing tasks
     @Bean
     public TaskExecutor taskExecutor() {
         SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
